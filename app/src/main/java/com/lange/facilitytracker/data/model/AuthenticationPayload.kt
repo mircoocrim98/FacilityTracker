@@ -1,5 +1,5 @@
 package com.lange.facilitytracker.data.model
 
-data class Authentication(
+data class AuthenticationPayload(
     val sessionToken: String
 )

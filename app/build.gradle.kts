@@ -1,9 +1,13 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    id ("androidx.navigation.safeargs.kotlin")
+
 }
 
+
 android {
+
     namespace = "com.lange.facilitytracker"
     compileSdk = 34
 
@@ -41,6 +45,8 @@ android {
 
 dependencies {
 
+    implementation(libs.androidx.room.common)
+    implementation(libs.androidx.room.ktx)
     val retrofitVersion = "2.9.0"
     val roomVersion = "2.6.0"
 
@@ -52,6 +58,10 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1")
+
+    //PlayStore
+    implementation("com.google.android.gms:play-services-location:21.2.0")
 
     //Retrofit und Moshi
     implementation("com.squareup.retrofit2:retrofit:$retrofitVersion")

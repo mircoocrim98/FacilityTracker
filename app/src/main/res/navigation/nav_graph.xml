@@ -3,24 +3,67 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/register">
+    app:startDestination="@id/loadingFragment">
 
-    <RegisterFragment
-        android:id="@+id/register"
-        android:name="com.lange.facilitytracker.Register"
-        android:label="fragment_register"
-        tools:layout="@layout/fragment_register" />
+
     <fragment
         android:id="@+id/loadingFragment"
         android:name="com.lange.facilitytracker.ui.LoadingFragment"
         android:label="fragment_loading"
-        tools:layout="@layout/fragment_loading" />
+        tools:layout="@layout/fragment_loading" >
+        <action
+            android:id="@+id/toLoginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/toOverviewFragmentWithoutLogin"
+            app:destination="@id/overviewFragment" />
+    </fragment>
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.lange.facilitytracker.ui.LoginFragment"
-        android:label="LoginFragment" />
+        android:label="LoginFragment" >
+        <action
+            android:id="@+id/toRegisterFragment"
+            app:destination="@id/registerFragment" />
+        <action
+            android:id="@+id/toOverviewFragment"
+            app:destination="@id/overviewFragment" />
+    </fragment>
     <fragment
         android:id="@+id/registerFragment"
         android:name="com.lange.facilitytracker.ui.RegisterFragment"
-        android:label="RegisterFragment" />
+        android:label="RegisterFragment" >
+        <action
+            android:id="@+id/toLoginFragmentFromRegister"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/overviewFragment"
+        android:name="com.lange.facilitytracker.ui.OverviewFragment"
+        android:label="fragment_overview"
+        tools:layout="@layout/fragment_overview" />
+    <fragment
+        android:id="@+id/createjobFragment"
+        android:name="com.lange.facilitytracker.ui.CreatejobFragment"
+        android:label="CreatejobFragment" >
+        <action
+            android:id="@+id/toLocationPicker"
+            app:destination="@id/locationpickerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/completedWorkFragmernt"
+        android:name="com.lange.facilitytracker.ui.StartJobFragmernt"
+        android:label="CompletedWorkFragmernt" />
+    <fragment
+        android:id="@+id/toDoFragment"
+        android:name="com.lange.facilitytracker.ui.ToDoFragment"
+        android:label="ToDoFragment" />
+    <fragment
+        android:id="@+id/locationpickerFragment"
+        android:name="com.lange.facilitytracker.ui.LocationpickerFragment"
+        android:label="LocationpickerFragment" >
+        <action
+            android:id="@+id/toCompleteWork"
+            app:destination="@id/completedWorkFragmernt" />
+    </fragment>
 </navigation>

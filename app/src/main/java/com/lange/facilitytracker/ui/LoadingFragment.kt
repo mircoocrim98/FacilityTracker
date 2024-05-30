@@ -4,22 +4,75 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
+import com.lange.facilitytracker.MainViewModel
 
-import com.lange.facilitytracker.R
+import com.lange.facilitytracker.data.model.AuthenticationPayload
+import com.lange.facilitytracker.databinding.FragmentLoadingBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 class LoadingFragment : Fragment() {
+    private lateinit var binding: FragmentLoadingBinding
+    private val viewModel: MainViewModel by activityViewModels()
 
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_loading, container, false)
+    ): View {
+        binding = FragmentLoadingBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val sharedPreferences = requireActivity().getSharedPreferences("FTracker", AppCompatActivity.MODE_PRIVATE)
+        val sessionToken = sharedPreferences.getString("sessionToken",null)
+
+        CoroutineScope(Dispatchers.Main).launch {
+            delay(2000)
+            if (sessionToken == null) {
+                val navController = findNavController()
+                val direction = LoadingFragmentDirections.toLoginFragment()
+                navController.navigate(direction)
+            }
+
+            if (sessionToken != null) {
+                viewModel.sendToken(AuthenticationPayload(sessionToken))
+            }
+
+            viewModel.loginResponse.observe(viewLifecycleOwner) {
+                if (it.code()==200){
+                    val navController = findNavController()
+                    val direction = LoadingFragmentDirections.toOverviewFragmentWithoutLogin()
+                    navController.navigate(direction)
+                } else {
+                    val navController = findNavController()
+                    val direction = LoadingFragmentDirections.toLoginFragment()
+                    navController.navigate(direction)
+                }
+            }
+        }
+
+
+
+
+
+
+//        if (sessionToken != null) {
+//            viewModel.sendToken(sessionToken)
+//        } else {
+//            val navController = findNavController()
+//            val direction = LoadingFragmentDirections.toLoginFragment()
+//            navController.navigate(direction)
+//        }
     }
 }

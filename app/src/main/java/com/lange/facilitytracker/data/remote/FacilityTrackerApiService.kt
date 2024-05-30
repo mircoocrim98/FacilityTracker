@@ -1,5 +1,11 @@
 package com.lange.facilitytracker.data.remote
 
+import com.lange.facilitytracker.data.model.Address
+import com.lange.facilitytracker.data.model.AuthenticationPayload
+import com.lange.facilitytracker.data.model.GeoData
+import com.lange.facilitytracker.data.model.Job
+import com.lange.facilitytracker.data.model.LoginRequest
+import com.lange.facilitytracker.data.model.RegisterRequest
 import com.lange.facilitytracker.data.model.User
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -9,8 +15,10 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import okhttp3.OkHttpClient
+import retrofit2.Response
+import retrofit2.http.Path
 
-const val BASE_URL = "http://192.168.178.26:8080"
+const val BASE_URL = "https://keepy-api-production.up.railway.app"
 
 private val moshi = Moshi.Builder()
     .add(KotlinJsonAdapterFactory())
@@ -31,13 +39,25 @@ private val retrofit = Retrofit.Builder()
 interface FacilityTrackerApiService{
 
     @POST("/auth/register")
-    suspend fun register(@Body user: User)
+    suspend fun register(@Body request: RegisterRequest): Response<User>
 
     @POST("/auth/login")
-    suspend fun login(@Body user: User)
+    suspend fun login(@Body request: LoginRequest): Response<User>
+
+    @POST("/auth/token")
+    suspend fun getCurrentUser(@Body sessionToken: AuthenticationPayload): Response<User>
 
     @GET("/users")
     suspend fun getUsers() : List<User>
+
+    @POST("/adresses/find")
+    suspend fun getNearbyAddressByGeoData(@Body geoData: GeoData) : Response<List<Address>>
+
+    @GET("/jobs/{userId}")
+    suspend fun getJobByUserId(@Path("userId") userId: String) : Response<Job>
+
+    @POST("/jobs")
+    suspend fun createJob(@Body job: Job) : Response<Job>
 
 }
 

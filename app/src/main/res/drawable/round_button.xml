@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@color/Highlight" /> <!-- Button Farbe -->
+    <corners android:radius="50dp" /> <!-- Radius für runde Ecken -->
+    <padding android:left="10dp"
+        android:top="10dp"
+        android:right="10dp"
+        android:bottom="10dp" />
+    <size android:width="100dp"
+        android:height="100dp" /> <!-- Button Größe -->
+</shape>
