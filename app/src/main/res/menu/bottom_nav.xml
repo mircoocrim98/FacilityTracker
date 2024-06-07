@@ -2,25 +2,30 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/toOverviewFragment"
+        android:id="@+id/overviewFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:icon="@drawable/icons8_zuhause"
         android:title="Overview"
         />
     <item
         android:id="@+id/toDoFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:icon="@drawable/icons8_aufgabenliste_50"
         android:title="Todo"
         />
     <item
         android:id="@+id/createjobFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:icon="@drawable/icons8_neu_erstellen_50"
         android:title="CreateJob"
         />
     <item
+        android:id="@+id/settingsFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:icon="@drawable/icons8_einstellungen"
         android:title="Settings" />
 </menu>
