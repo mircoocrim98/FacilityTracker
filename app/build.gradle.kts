@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
     id ("androidx.navigation.safeargs.kotlin")
+    id("com.google.devtools.ksp")
 
 }
 
@@ -42,7 +43,7 @@ android {
         viewBinding = true
     }
 }
-
+//
 dependencies {
 
     implementation(libs.androidx.room.common)
@@ -70,6 +71,12 @@ dependencies {
 
     // Coil
     implementation("io.coil-kt:coil:2.5.0")
+
+    //Room
+    implementation("androidx.room:room-runtime:$roomVersion")
+    ksp("androidx.room:room-compiler:$roomVersion")
+    implementation("androidx.room:room-ktx:$roomVersion")
+
 
 
 }
