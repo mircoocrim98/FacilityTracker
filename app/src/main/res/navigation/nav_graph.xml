@@ -66,4 +66,8 @@
             android:id="@+id/toCompleteWork"
             app:destination="@id/completedWorkFragmernt" />
     </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.lange.facilitytracker.ui.SettingsFragment"
+        android:label="SettingsFragment" />
 </navigation>
