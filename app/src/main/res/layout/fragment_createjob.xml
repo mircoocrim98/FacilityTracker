@@ -16,7 +16,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/broom_svgrepo_com" />
+        app:srcCompat="@drawable/icon_cleaning" />
 
 
     <ImageButton
@@ -29,7 +29,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline3"
-        app:srcCompat="@drawable/tool_svgrepo_com" />
+        app:srcCompat="@drawable/icon_maintenance" />
 
     <ImageButton
         android:id="@+id/btnDamage"
@@ -41,7 +41,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline4"
-        app:srcCompat="@drawable/house_damage_solid_svgrepo_com" />
+        app:srcCompat="@drawable/icon_damage1" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline3"
@@ -75,7 +75,7 @@
             style="?android:attr/progressBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/rectangle_111"
+            android:background="@drawable/itembackground3"
             android:padding="40dp" />
     </androidx.cardview.widget.CardView>
 

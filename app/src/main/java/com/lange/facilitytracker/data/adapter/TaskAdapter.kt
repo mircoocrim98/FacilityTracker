@@ -30,9 +30,9 @@ private val viewModel: MainViewModel
         val task = tasks[position]
 
         when (viewModel.currentTypeOfWork) {
-            TypeOfWorkEnum.cleaning -> holder.binding.itemIcon.setImageResource(R.drawable.broom_svgrepo_com)
-            TypeOfWorkEnum.maintenance -> holder.binding.itemIcon.setImageResource(R.drawable.tool_svgrepo_com)
-            TypeOfWorkEnum.damagereport -> holder.binding.itemIcon.setImageResource(R.drawable.damage_kinetic_1_svgrepo_com)
+            TypeOfWorkEnum.cleaning -> holder.binding.itemIcon.setImageResource(R.drawable.icon_cleaning)
+            TypeOfWorkEnum.maintenance -> holder.binding.itemIcon.setImageResource(R.drawable.icon_maintenance)
+            TypeOfWorkEnum.damagereport -> holder.binding.itemIcon.setImageResource(R.drawable.icon_damage2)
             null -> Log.e("TaskAdapter", "currentTypeOfWork is null")
         }
 

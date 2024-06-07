@@ -5,27 +5,27 @@
         android:id="@+id/overviewFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:icon="@drawable/icons8_zuhause"
+        android:icon="@drawable/icon_home"
         android:title="Overview"
         />
     <item
         android:id="@+id/toDoFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:icon="@drawable/icons8_aufgabenliste_50"
+        android:icon="@drawable/icon_todo"
         android:title="Todo"
         />
     <item
         android:id="@+id/createjobFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:icon="@drawable/icons8_neu_erstellen_50"
+        android:icon="@drawable/icon_createjob"
         android:title="CreateJob"
         />
     <item
         android:id="@+id/settingsFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:icon="@drawable/icons8_einstellungen"
+        android:icon="@drawable/icon_settings"
         android:title="Settings" />
 </menu>
