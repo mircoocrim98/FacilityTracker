@@ -4,9 +4,9 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.lange.facilitytracker.data.model.Task
+import com.lange.facilitytracker.data.model.TaskResources
 
-@Database(entities = [Task::class], version = 1)
+@Database(entities = [TaskResources::class], version = 1)
 abstract class FacilityTrackerDatabase : RoomDatabase(){
 
     abstract val dao: FacilityTrackerDatabaseDao
@@ -14,7 +14,7 @@ abstract class FacilityTrackerDatabase : RoomDatabase(){
     companion object{
         private lateinit var INSTANCE: FacilityTrackerDatabase
 
-        fun get(context: Context) : com.lange.facilitytracker.data.local.FacilityTrackerDatabase {
+        fun get(context: Context) : FacilityTrackerDatabase {
             synchronized(FacilityTrackerDatabase::class.java) {
                 if (!::INSTANCE.isInitialized) {
                     INSTANCE = Room.databaseBuilder(

@@ -5,7 +5,6 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.lange.facilitytracker.data.model.TaskResources
-import com.lange.facilitytracker.data.model.TaskTypeEnum
 
 @Dao
 interface FacilityTrackerDatabaseDao {
@@ -13,13 +12,15 @@ interface FacilityTrackerDatabaseDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertTask(task: TaskResources)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAllTasks(task: List<TaskResources>)
+
     @Query("DELETE FROM tasks_table WHERE id = :id")
-    fun deleteById(id: Long)
+    suspend fun deleteById(id: Long)
 
     @Query("SELECT * FROM tasks_table")
-    fun getAllTasks(): List<TaskResources>
+    suspend fun getAllTasks(): List<TaskResources>
 
     @Query("SELECT * FROM tasks_table WHERE taskType = :taskType")
-    fun getTaskByType(taskType: TaskTypeEnum): List<TaskResources>
-
+    suspend fun getTaskByType(taskType: Int): List<TaskResources>
 }
