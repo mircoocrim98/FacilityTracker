@@ -1,9 +1,12 @@
 package com.lange.facilitytracker.data.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.lange.facilitytracker.MainViewModel
+import com.lange.facilitytracker.R
+import com.lange.facilitytracker.TypeOfWorkEnum
 import com.lange.facilitytracker.data.model.Task
 import com.lange.facilitytracker.databinding.ItemTaskBinding
 
@@ -25,6 +28,14 @@ private val viewModel: MainViewModel
 
     override fun onBindViewHolder(holder: TasksViewHolder, position: Int) {
         val task = tasks[position]
+
+        when (viewModel.currentTypeOfWork) {
+            TypeOfWorkEnum.cleaning -> holder.binding.itemIcon.setImageResource(R.drawable.broom_svgrepo_com)
+            TypeOfWorkEnum.maintenance -> holder.binding.itemIcon.setImageResource(R.drawable.tool_svgrepo_com)
+            TypeOfWorkEnum.damagereport -> holder.binding.itemIcon.setImageResource(R.drawable.damage_kinetic_1_svgrepo_com)
+            null -> Log.e("TaskAdapter", "currentTypeOfWork is null")
+        }
+
 
         holder.binding.itemText.text = task.key
         holder.binding.itemCheckbox.isChecked = task.value
