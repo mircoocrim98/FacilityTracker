@@ -1,12 +1,12 @@
 package com.lange.facilitytracker
 
 import android.app.Application
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.lange.facilitytracker.data.Repository
-import com.lange.facilitytracker.data.local.FacilityTrackerDatabase
 import com.lange.facilitytracker.data.model.Address
 import com.lange.facilitytracker.data.model.AuthenticationPayload
 import com.lange.facilitytracker.data.model.GeoData
@@ -14,11 +14,15 @@ import com.lange.facilitytracker.data.model.Job
 import com.lange.facilitytracker.data.model.LoginRequest
 import com.lange.facilitytracker.data.model.RegisterRequest
 import com.lange.facilitytracker.data.model.TaskResources
-import com.lange.facilitytracker.data.model.TaskTypeEnum
 import com.lange.facilitytracker.data.remote.FacilityTrackerApi
 import kotlinx.coroutines.launch
+import com.lange.facilitytracker.data.local.FacilityTrackerDatabase
 
-class MainViewModel(application: Application): AndroidViewModel(application) {
+enum class TypeOfWorkEnum {
+    cleaning, maintenance, damagereport
+}
+
+public class MainViewModel(application: Application): AndroidViewModel(application) {
 
     private val database = FacilityTrackerDatabase.get(application)
     private val repository = Repository(FacilityTrackerApi, database)
@@ -29,8 +33,9 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     val jobById = repository.jobById
     val createJobResponse = repository.createJobResponse
     val errorMessage = repository.errorMessage
+    val taskResources = repository.taskResources
 
-    var currentTypeOfWork: TypeOfWork? = null
+    var currentTypeOfWork: TypeOfWorkEnum? = null
     var currentUserId: String? = null
     private val _currentAddress = MutableLiveData<Address>()
 
@@ -38,9 +43,7 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
         get() = _currentAddress
     var geoData: GeoData? = null
 
-    enum class TypeOfWork {
-        cleaning, maintenance, damagereport
-    }
+
 
     fun setCurrentAddress(address: Address){
         _currentAddress.postValue(address)
@@ -88,9 +91,15 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
         }
     }
 
-    fun insertInDB(taskResources: TaskResources){
+    fun insertTaskInDB(taskResources: TaskResources){
         viewModelScope.launch {
-            repository.insertInDB(taskResources)
+            repository.insertTaskInDB(taskResources)
+        }
+    }
+
+    fun insertAllTasksInDB(taskResources: List<TaskResources>){
+        viewModelScope.launch {
+            repository.insertAllTasksInDB(taskResources)
         }
     }
 
@@ -106,9 +115,9 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
         }
     }
 
-    fun getAllTasksByTypeOfWork(taskTypeEnum: TaskTypeEnum){
+    fun getAllTasksByTypeOfWork(taskType: Int){
         viewModelScope.launch {
-            repository.getAllTasksByTypeOfWork(taskTypeEnum)
+            repository.getAllTasksByTypeOfWork(taskType)
         }
     }
 }

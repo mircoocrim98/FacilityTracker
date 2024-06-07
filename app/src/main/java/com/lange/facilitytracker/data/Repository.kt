@@ -3,6 +3,7 @@ package com.lange.facilitytracker.data
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.lange.facilitytracker.TypeOfWorkEnum
 import com.lange.facilitytracker.data.local.FacilityTrackerDatabase
 import com.lange.facilitytracker.data.model.Address
 import com.lange.facilitytracker.data.model.AuthenticationPayload
@@ -11,7 +12,6 @@ import com.lange.facilitytracker.data.model.Job
 import com.lange.facilitytracker.data.model.LoginRequest
 import com.lange.facilitytracker.data.model.RegisterRequest
 import com.lange.facilitytracker.data.model.TaskResources
-import com.lange.facilitytracker.data.model.TaskTypeEnum
 import com.lange.facilitytracker.data.model.User
 import com.lange.facilitytracker.data.remote.FacilityTrackerApi
 import retrofit2.Response
@@ -49,15 +49,23 @@ class Repository(
     val errorMessage: LiveData<String>
         get() = _errorMessage
 
-    private val _taskResources = MutableLiveData<TaskResources>()
-    val taskResources: LiveData<TaskResources>
+    private val _taskResources = MutableLiveData<List<TaskResources>>()
+    val taskResources: LiveData<List<TaskResources>>
         get() = _taskResources
 
-    suspend fun insertInDB(taskResources: TaskResources){
+    suspend fun insertTaskInDB(taskResources: TaskResources){
         try {
             database.dao.insertTask(taskResources)
         } catch (e: Exception){
             log("Cant insert taskresource: ", e)
+        }
+    }
+
+    suspend fun insertAllTasksInDB(taskResources: List<TaskResources>){
+        try {
+            val result = database.dao.insertAllTasks(taskResources)
+        } catch (e: Exception){
+            log("Cant insert al taskresources:", e)
         }
     }
 
@@ -71,15 +79,17 @@ class Repository(
 
     suspend fun getAllTasksFromDB(){
         try {
-            database.dao.getAllTasks()
+            val result = database.dao.getAllTasks()
+            _taskResources.postValue(result)
         } catch (e: Exception){
             log("Cant get all tasks", e)
         }
     }
 
-    suspend fun getAllTasksByTypeOfWork(taskTypeEnum: TaskTypeEnum){
+    suspend fun getAllTasksByTypeOfWork(taskType: Int){
         try {
-            database.dao.getTaskByType(taskTypeEnum)
+            val result = database.dao.getTaskByType(taskType)
+            _taskResources.postValue(result)
         } catch (e: Exception){
             log("Cant get tasks by type of work", e)
         }

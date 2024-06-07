@@ -18,6 +18,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.lange.facilitytracker.MainViewModel
+import com.lange.facilitytracker.TypeOfWorkEnum
 import com.lange.facilitytracker.data.model.GeoData
 import com.lange.facilitytracker.databinding.FragmentCreatejobBinding
 
@@ -114,10 +115,19 @@ class CreatejobFragment : Fragment() {
 
         buttons.forEach {
             it.setOnClickListener {btn ->
-                viewModel.currentTypeOfWork = when (btn) {
-                    binding.btnClean -> MainViewModel.TypeOfWork.cleaning
-                    binding.btnMaintenance -> MainViewModel.TypeOfWork.maintenance
-                    binding.btnDamage -> MainViewModel.TypeOfWork.damagereport
+                when (btn) {
+                    binding.btnClean -> {
+                        viewModel.currentTypeOfWork = TypeOfWorkEnum.cleaning
+                        viewModel.getAllTasksByTypeOfWork(0)
+                    }
+                    binding.btnMaintenance -> {
+                        viewModel.currentTypeOfWork = TypeOfWorkEnum.maintenance
+                        viewModel.getAllTasksByTypeOfWork(1)
+                    }
+                    binding.btnDamage -> {
+                        viewModel.currentTypeOfWork = TypeOfWorkEnum.damagereport
+                        viewModel.getAllTasksByTypeOfWork(2)
+                    }
                     else -> null
                 }
                 if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
