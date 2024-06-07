@@ -13,7 +13,7 @@
         android:layout_marginStart="64dp"
         android:layout_marginEnd="64dp"
         android:layout_marginBottom="40dp"
-        android:text="Button"
+        android:text="Start Job"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -22,9 +22,9 @@
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:layout_marginStart="40dp"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
-        android:layout_marginEnd="40dp"
+        android:layout_marginEnd="32dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -35,14 +35,14 @@
             android:id="@+id/editTextText"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
             android:layout_marginEnd="16dp"
+            android:layout_weight="1"
             android:background="@drawable/round_back_dark_blue"
             android:ems="10"
+            android:gravity="center_vertical"
             android:inputType="text"
+            android:paddingStart="8dp"
             android:text="Name" />
-
 
 
         <Button
@@ -51,7 +51,8 @@
             android:layout_height="48dp"
             android:layout_gravity="center_vertical"
             android:text="+
-" />
+"
+            android:textSize="20sp" />
 
     </LinearLayout>
 

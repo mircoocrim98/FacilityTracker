@@ -34,16 +34,12 @@ class StartJobFragmernt: Fragment() {
         with(binding) {
             recyclerView.adapter = taskAdapter
 
+            val tasksList: MutableList<Task> = mutableListOf()
+            for (i in viewModel.taskResources.value!!){
+                tasksList.add(Task(i.text))
+            }
 
-            val testTasks = listOf(
-                Task("Aufgabe1"),
-                Task("Aufgabe2"),
-                Task("Aufgabe3"),
-                Task("Aufgabe4"),
-                Task("Aufgabe5"),
-                Task("Aufgabe6"),
-            )
-            taskAdapter.addItems(testTasks)
+            taskAdapter.addItems(tasksList)
 
             btnStartJob.setOnClickListener {
                 val checkedItems = taskAdapter.getCheckedItems()
