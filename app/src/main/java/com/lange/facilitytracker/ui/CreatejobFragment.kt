@@ -14,6 +14,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -34,6 +35,7 @@ class CreatejobFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        viewModel.destinationTodo = false
         binding = FragmentCreatejobBinding.inflate(inflater, container, false)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
         return binding.root
@@ -112,7 +114,6 @@ class CreatejobFragment : Fragment() {
 
 
         val buttons = listOf(binding.btnClean, binding.btnMaintenance, binding.btnDamage)
-
         buttons.forEach {
             it.setOnClickListener {btn ->
                 when (btn) {
@@ -138,22 +139,21 @@ class CreatejobFragment : Fragment() {
                     }
                         override fun onLocationError() {
                         // Handle the error here
-                    }
+                        }
                     })
                 }  else {
                     requestLocationPermission()
                 }
                 binding.loadingCardview.visibility = View.VISIBLE
-            }
-        }
-
-        viewModel.nearbyAddresses.observe(viewLifecycleOwner){
-            if (it.code()==200){
-                val navController = findNavController()
-                val direction = CreatejobFragmentDirections.toLocationPicker()
-                navController.navigate(direction)
-            } else {
-                Toast.makeText(context, "No managed property found near your location", Toast.LENGTH_LONG).show()
+                viewModel.nearbyAddresses.observe(viewLifecycleOwner){
+                    if (it.code()==200){
+                        val navController = findNavController()
+                        val direction = CreatejobFragmentDirections.toLocationPicker()
+                        navController.navigate(direction)
+                    } else {
+                        Toast.makeText(context, "No managed property found near your location", Toast.LENGTH_LONG).show()
+                    }
+                }
             }
         }
     }

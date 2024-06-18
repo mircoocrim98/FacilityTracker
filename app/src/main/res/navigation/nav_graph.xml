@@ -51,23 +51,47 @@
             app:destination="@id/locationpickerFragment" />
     </fragment>
     <fragment
-        android:id="@+id/completedWorkFragmernt"
-        android:name="com.lange.facilitytracker.ui.StartJobFragmernt"
-        android:label="CompletedWorkFragmernt" />
-    <fragment
         android:id="@+id/toDoFragment"
         android:name="com.lange.facilitytracker.ui.ToDoFragment"
-        android:label="ToDoFragment" />
+        android:label="ToDoFragment" >
+        <action
+            android:id="@+id/action_toDoFragment_to_updateTodoFragment"
+            app:destination="@id/updateTodoFragment" />
+    </fragment>
     <fragment
         android:id="@+id/locationpickerFragment"
         android:name="com.lange.facilitytracker.ui.LocationpickerFragment"
         android:label="LocationpickerFragment" >
         <action
-            android:id="@+id/toCompleteWork"
-            app:destination="@id/completedWorkFragmernt" />
+            android:id="@+id/action_locationpickerFragment_to_startjobFragmernt"
+            app:destination="@id/startjobFragmernt" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.lange.facilitytracker.ui.SettingsFragment"
         android:label="SettingsFragment" />
+    <fragment
+        android:id="@+id/timetrackerFragment"
+        android:name="com.lange.facilitytracker.ui.TimetrackerFragment"
+        android:label="TimetrackerFragment" >
+        <action
+            android:id="@+id/action_timetrackerFragment_to_overviewFragment"
+            app:destination="@id/overviewFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/startjobFragmernt"
+        android:name="com.lange.facilitytracker.ui.StartjobFragmernt"
+        android:label="StartjobFragmernt" >
+        <action
+            android:id="@+id/action_startjobFragmernt_to_timetrackerFragment"
+            app:destination="@id/timetrackerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/updateTodoFragment"
+        android:name="com.lange.facilitytracker.ui.UpdateTodoFragment"
+        android:label="UpdateTodoFragment" >
+        <action
+            android:id="@+id/action_updateTodoFragment_to_timetrackerFragment"
+            app:destination="@id/timetrackerFragment" />
+    </fragment>
 </navigation>

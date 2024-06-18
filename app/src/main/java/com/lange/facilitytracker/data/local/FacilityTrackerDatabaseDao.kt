@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.lange.facilitytracker.data.model.Address
 import com.lange.facilitytracker.data.model.TaskResources
 
 @Dao
@@ -23,4 +24,15 @@ interface FacilityTrackerDatabaseDao {
 
     @Query("SELECT * FROM tasks_table WHERE taskType = :taskType")
     suspend fun getTaskByType(taskType: Int): List<TaskResources>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAllAddresses(address: List<Address>)
+
+    @Query("SELECT * FROM address_table WHERE _id = :id")
+    suspend fun getAddress(id: String): Address
+
+    @Query("SELECT * FROM address_table")
+    suspend fun getAllAddresses(): List<Address>
+
+
 }

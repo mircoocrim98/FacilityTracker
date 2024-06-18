@@ -48,6 +48,10 @@ class LoginFragment : Fragment() {
                         editor.putString("sessionToken", it.body()?.authentication?.sessionToken)
                         editor.apply()
                         viewModel.currentUserId = it.body()?._id
+                        viewModel.currentUserId?.let { viewModel.getJobsByUserId(it) }
+                    }
+                    if (viewModel.addresses.value.isNullOrEmpty()){
+                        viewModel.insertAllAddressesInDB()
                     }
                     val navController = findNavController()
                     val direction = LoginFragmentDirections.toOverviewFragment()

@@ -3,7 +3,6 @@ package com.lange.facilitytracker.data
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.lange.facilitytracker.TypeOfWorkEnum
 import com.lange.facilitytracker.data.local.FacilityTrackerDatabase
 import com.lange.facilitytracker.data.model.Address
 import com.lange.facilitytracker.data.model.AuthenticationPayload
@@ -36,9 +35,9 @@ class Repository(
         get() = _nearbyAddresses
 
 
-    private val _jobById = MutableLiveData<Response<Job>>()
-    val jobById: LiveData<Response<Job>>
-        get() = _jobById
+    private val _jobsById = MutableLiveData<Response<List<Job>>>()
+    val jobsById: LiveData<Response<List<Job>>>
+        get() = _jobsById
 
 
     private val _createJobResponse = MutableLiveData<Response<Job>>()
@@ -52,6 +51,45 @@ class Repository(
     private val _taskResources = MutableLiveData<List<TaskResources>>()
     val taskResources: LiveData<List<TaskResources>>
         get() = _taskResources
+
+    private val _updateJobResponse = MutableLiveData<Response<Job>>()
+    val updateJobResponse: LiveData<Response<Job>>
+        get() = _updateJobResponse
+
+    private val _addresses = MutableLiveData<List<Address>>()
+    val addresses: LiveData<List<Address>>
+        get() = _addresses
+
+    private val _address = MutableLiveData<Address>()
+    val address: LiveData<Address>
+        get() = _address
+
+    suspend fun insertAllAddressesInDB(){
+        try {
+            val result = api.retrofitService.getAllAddresses()
+            database.dao.insertAllAddresses(result)
+        } catch (e: Exception){
+            log("Cant insert all addresses", e)
+        }
+    }
+
+    suspend fun getAllAddressesFromDB(){
+        try {
+            val result = database.dao.getAllAddresses()
+            _addresses.postValue(result)
+        } catch (e: Exception){
+            log("Cant get all addresses", e)
+        }
+    }
+
+    suspend fun getAddressByIdFromDB(id: String){
+        try {
+            val result = database.dao.getAddress(id)
+            _address.postValue(result)
+        } catch (e: Exception){
+            log("Cant get address", e)
+        }
+    }
 
     suspend fun insertTaskInDB(taskResources: TaskResources){
         try {
@@ -140,12 +178,13 @@ class Repository(
         }
     }
 
-    suspend fun getJobByUserId(userID: String){
+    suspend fun getJobsByUserId(userID: String){
         try {
-            val result = api.retrofitService.getJobByUserId(userID)
-            _jobById.postValue(result)
+            val result = api.retrofitService.getJobsByUserId(userID)
+            _jobsById.postValue(result)
         } catch (e: Exception) {
-            log("Cant get user by id", e)        }
+            log("Cant get jobs by id", e)
+        }
     }
 
     suspend fun createJob(job: Job){
@@ -154,6 +193,15 @@ class Repository(
             _createJobResponse.postValue(result)
         } catch (e: Exception){
             log("Cant create job", e)
+        }
+    }
+
+    suspend fun updateJob(jobID: String, job: Job){
+        try {
+            val result = api.retrofitService.updateJob(jobID, job)
+            _updateJobResponse.postValue(result)
+        } catch (e: Exception){
+            log("Cant update job", e)
         }
     }
 

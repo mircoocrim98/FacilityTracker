@@ -3,70 +3,71 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@android:color/transparent"
-    android:layout_marginTop="8dp"
-    android:layout_marginStart="8dp"
-    android:layout_marginEnd="8dp">
+    android:layout_height="wrap_content">
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/materialCardView"
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="@android:color/transparent"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.5">
+        app:layout_constraintVertical_bias="0.5"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/relativeLayout3"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
             <ImageView
                 android:id="@+id/imageView"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/itembackground2"
+                android:src="@drawable/itembackground3"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/tvStreet"
+                android:id="@+id/tv_street"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
-                android:hint="Frintroperstr 361"
+                android:text="TextView"
                 android:textColor="#EDEDED"
-                android:textColorHint="@color/hint"
-                android:textSize="20sp"
+                android:textSize="24sp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@id/tvCity"
-                app:layout_constraintStart_toStartOf="@id/imageView"
-                app:layout_constraintTop_toTopOf="@id/imageView" />
+                app:layout_constraintBottom_toBottomOf="@+id/iv_jobicon"
+                app:layout_constraintStart_toEndOf="@+id/iv_jobicon"
+                app:layout_constraintTop_toTopOf="@+id/iv_jobicon"
+                app:layout_constraintVertical_bias="0.19999999" />
 
             <TextView
-                android:id="@+id/tvCity"
+                android:id="@+id/tv_city"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:hint="45359 Essen"
+                android:layout_marginTop="8dp"
+                android:text="TextView"
                 android:textColor="#EDEDED"
-                android:textColorHint="@color/hint"
-                android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="@id/imageView"
-                app:layout_constraintStart_toStartOf="@+id/imageView"
-                app:layout_constraintTop_toBottomOf="@+id/tvStreet" />
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="@+id/tv_street"
+                app:layout_constraintTop_toBottomOf="@+id/tv_street" />
 
+            <ImageView
+                android:id="@+id/iv_jobicon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.5"
+                app:srcCompat="@drawable/icon_damage2" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </com.google.android.material.card.MaterialCardView>
-
+    </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

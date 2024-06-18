@@ -16,6 +16,7 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 import okhttp3.OkHttpClient
 import retrofit2.Response
+import retrofit2.http.PATCH
 import retrofit2.http.Path
 
 const val BASE_URL = "https://keepy-api-production.up.railway.app"
@@ -53,11 +54,17 @@ interface FacilityTrackerApiService{
     @POST("/adresses/find")
     suspend fun getNearbyAddressByGeoData(@Body geoData: GeoData) : Response<List<Address>>
 
+    @GET("/adresses")
+    suspend fun getAllAddresses() : List<Address>
+
     @GET("/jobs/{userId}")
-    suspend fun getJobByUserId(@Path("userId") userId: String) : Response<Job>
+    suspend fun getJobsByUserId(@Path("userId") userId: String) : Response<List<Job>>
 
     @POST("/jobs")
     suspend fun createJob(@Body job: Job) : Response<Job>
+
+    @PATCH("/jobs/{jobId}")
+    suspend fun updateJob(@Path("jobId") jobId: String, @Body job: Job) : Response<Job>
 
 }
 

@@ -57,7 +57,7 @@ private val viewModel: MainViewModel
     }
 
     fun getCheckedItems(): List<Task>{
-        return tasks
+        return tasks.filter { it.value  }
     }
 
 }

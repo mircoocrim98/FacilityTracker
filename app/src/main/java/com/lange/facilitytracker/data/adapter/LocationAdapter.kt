@@ -47,7 +47,7 @@ class LocationAdapter(
 
             root.setOnClickListener {
                 viewModel.setCurrentAddress(address)
-                val direction = LocationpickerFragmentDirections.toCompleteWork()
+                val direction = LocationpickerFragmentDirections.actionLocationpickerFragmentToStartjobFragmernt()
                 it.findNavController().navigate(direction)
             }
         }

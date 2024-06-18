@@ -1,6 +1,7 @@
 package com.lange.facilitytracker.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,6 +32,7 @@ class LoadingFragment : Fragment() {
     ): View {
         binding = FragmentLoadingBinding.inflate(inflater, container, false)
         viewModel.getAllTasksFromDB()
+        viewModel.getAllAddressesFromDB()
         return binding.root
     }
 
@@ -65,6 +67,7 @@ class LoadingFragment : Fragment() {
                 )
             }
 
+
             if (sessionToken == null) {
                 val navController = findNavController()
                 val direction = LoadingFragmentDirections.toLoginFragment()
@@ -77,6 +80,13 @@ class LoadingFragment : Fragment() {
 
             viewModel.loginResponse.observe(viewLifecycleOwner) {
                 if (it.code()==200){
+                    viewModel.currentUserId = it.body()?._id
+                    viewModel.currentUserId?.let { viewModel.getJobsByUserId(it) }
+
+                    if (viewModel.addresses.value.isNullOrEmpty()){
+                        viewModel.insertAllAddressesInDB()
+                    }
+
                     val navController = findNavController()
                     val direction = LoadingFragmentDirections.toOverviewFragmentWithoutLogin()
                     navController.navigate(direction)

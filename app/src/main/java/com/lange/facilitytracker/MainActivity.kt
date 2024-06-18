@@ -28,31 +28,21 @@ class MainActivity : AppCompatActivity()  {
         setContentView(binding.root)
 
         val navHost = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
-        binding.bottomNavigationView.setupWithNavController(navHost.navController)
+        val navController = navHost.navController
+        binding.bottomNavigationView.setupWithNavController(navController)
 
         navHost.navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.loadingFragment -> binding.bottomNavigationView.visibility = View.GONE
-                R.id.locationpickerFragment -> binding.bottomNavigationView.visibility = View.GONE
-                R.id.completedWorkFragmernt -> binding.bottomNavigationView.visibility = View.GONE
-                else -> binding.bottomNavigationView.visibility = View.VISIBLE
+                R.id.overviewFragment -> binding.bottomNavigationView.visibility = View.VISIBLE
+                R.id.toDoFragment -> binding.bottomNavigationView.visibility = View.VISIBLE
+                R.id.createjobFragment -> binding.bottomNavigationView.visibility = View.VISIBLE
+                R.id.settingsFragment -> binding.bottomNavigationView.visibility = View.VISIBLE
+                else -> binding.bottomNavigationView.visibility = View.GONE
             }
         }
 
-        viewModel.errorMessage.observe(this){
-            Toast.makeText(this, it, Toast.LENGTH_LONG).show()
-        }
-
-//        onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
-//            override fun handleOnBackPressed() {
-//                binding.fragmentContainerView.findNavController().navigateUp()
-//            }
-//        })
-
-        val sharedPreferences = getSharedPreferences("FTracker", MODE_PRIVATE)
-        val sessionToken = sharedPreferences.getString("sessionToken",null)
-        Log.i("####################ASD", sessionToken.toString())
-
+//        viewModel.errorMessage.observe(this){
+//            Toast.makeText(this, it, Toast.LENGTH_LONG).show()
+//        }
     }
-
 }

@@ -1,7 +1,6 @@
 package com.lange.facilitytracker
 
 import android.app.Application
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -30,19 +29,62 @@ public class MainViewModel(application: Application): AndroidViewModel(applicati
     val loginResponse = repository.loginResponse
     val registerResponse = repository.registerResponse
     val nearbyAddresses = repository.nearbyAddresses
-    val jobById = repository.jobById
+    val jobsById = repository.jobsById
     val createJobResponse = repository.createJobResponse
     val errorMessage = repository.errorMessage
     val taskResources = repository.taskResources
+    val updateJobResponse = repository.updateJobResponse
+    val addresses = repository.addresses
+    val address = repository.address
 
     var currentTypeOfWork: TypeOfWorkEnum? = null
     var currentUserId: String? = null
-    private val _currentAddress = MutableLiveData<Address>()
+    var destinationTodo = false
+    private val _currentJob = MutableLiveData<Job>()
+    val currentJob: LiveData<Job>
+        get() = _currentJob
 
+    private val _currentAddress = MutableLiveData<Address>()
     val currentAddress: LiveData<Address>
         get() = _currentAddress
+
     var geoData: GeoData? = null
 
+
+    private val _timer = MutableLiveData<Long>()
+    val timer: LiveData<Long>
+        get() = _timer
+
+
+    fun setCurrentJob(job: Job){
+        _currentJob.postValue(job)
+    }
+
+    fun insertAllAddressesInDB(){
+        viewModelScope.launch {
+            repository.insertAllAddressesInDB()
+        }
+    }
+
+    fun getAllAddressesFromDB(){
+        viewModelScope.launch {
+            repository.getAllAddressesFromDB()
+        }
+    }
+
+    fun getAddressByIdFromDB(id: String){
+        viewModelScope.launch {
+            repository.getAddressByIdFromDB(id)
+        }
+    }
+
+    fun checkTimer(startTime: Long){
+        viewModelScope.launch {
+            val currentTime = System.currentTimeMillis() - startTime
+            _timer.postValue(currentTime / 1000)
+
+        }
+    }
 
 
     fun setCurrentAddress(address: Address){
@@ -79,9 +121,9 @@ public class MainViewModel(application: Application): AndroidViewModel(applicati
         }
     }
 
-    fun getJobByUserId(userId: String){
+    fun getJobsByUserId(userId: String){
         viewModelScope.launch {
-            repository.jobById
+            repository.getJobsByUserId(userId)
         }
     }
 
@@ -118,6 +160,12 @@ public class MainViewModel(application: Application): AndroidViewModel(applicati
     fun getAllTasksByTypeOfWork(taskType: Int){
         viewModelScope.launch {
             repository.getAllTasksByTypeOfWork(taskType)
+        }
+    }
+
+    fun updateJob(jobID: String, job: Job){
+        viewModelScope.launch {
+            repository.updateJob(jobID, job)
         }
     }
 }
