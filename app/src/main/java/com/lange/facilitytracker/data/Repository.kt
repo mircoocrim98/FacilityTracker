@@ -35,8 +35,8 @@ class Repository(
         get() = _nearbyAddresses
 
 
-    private val _jobsById = MutableLiveData<Response<List<Job>>>()
-    val jobsById: LiveData<Response<List<Job>>>
+    private val _jobsById = MutableLiveData<List<Job>>()
+    val jobsById: LiveData<List<Job>>
         get() = _jobsById
 
 
@@ -180,7 +180,10 @@ class Repository(
 
     suspend fun getJobsByUserId(userID: String){
         try {
-            val result = api.retrofitService.getJobsByUserId(userID)
+            val result = api.retrofitService.getJobsByUserId(userID).body() ?: emptyList()
+            result.onEach{
+                it.address = it.id_address?.let { it1 -> database.dao.getAddress(it1) }
+            }
             _jobsById.postValue(result)
         } catch (e: Exception) {
             log("Cant get jobs by id", e)

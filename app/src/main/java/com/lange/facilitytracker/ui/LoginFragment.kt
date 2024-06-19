@@ -36,34 +36,34 @@ class LoginFragment : Fragment() {
         binding.btnLogin.setOnClickListener {
             val mail = binding.etEmailLogin.text.toString()
             val password = binding.etPasswordLogin.text.toString()
-
-
+            //send Login request
             viewModel.login(LoginRequest(mail, password))
             viewModel.loginResponse.observe(viewLifecycleOwner) {
+                //200 if login is sucessful
                 if (it.code()==200) {
+                    //Remember me
                     if (binding.checkBox.isChecked) {
                         val sharedPreferences =
                             requireActivity().getSharedPreferences("FTracker", MODE_PRIVATE)
                         val editor = sharedPreferences.edit()
                         editor.putString("sessionToken", it.body()?.authentication?.sessionToken)
                         editor.apply()
-                        viewModel.currentUserId = it.body()?._id
-                        viewModel.currentUserId?.let { viewModel.getJobsByUserId(it) }
                     }
+                    //Insert all addresses in DB if DB is empty
                     if (viewModel.addresses.value.isNullOrEmpty()){
                         viewModel.insertAllAddressesInDB()
                     }
+                    viewModel.currentUserId = it.body()?._id
+                    viewModel.currentUserId?.let { viewModel.getJobsByUserId(it) }
+                    //navigate to overview
                     val navController = findNavController()
                     val direction = LoginFragmentDirections.toOverviewFragment()
                     navController.navigate(direction)
+                // 400 if wrong email or password
                 } else if (it.code() == 400)  {
                     Toast.makeText(context, "Wrong Email or password", Toast.LENGTH_LONG).show()
                 }
-
-
             }
-
-
         }
 
         binding.ivVisibleOnOff.setOnClickListener {

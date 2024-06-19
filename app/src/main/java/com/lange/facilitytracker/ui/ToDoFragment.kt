@@ -32,7 +32,7 @@ class ToDoFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.jobsById.observe(viewLifecycleOwner) {
-            val jobs = it.body()?.filter { it.job_type == 0 || it.job_type == 2 || it.job_type == 4}
+            val jobs = it?.filter { it.job_type == 0 || it.job_type == 2 || it.job_type == 4}
             binding.rvTodo.adapter = jobs?.let { ToDoAdapter(it, viewModel, viewLifecycleOwner) }
         }
     }

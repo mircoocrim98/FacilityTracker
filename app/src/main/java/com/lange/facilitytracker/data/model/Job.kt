@@ -10,5 +10,7 @@ data class Job(
     val startTime: Long?,
     val endTime: Long?,
     val startLocation: GeoData?,
-    val endLocation: GeoData?
+    val endLocation: GeoData?,
+    var address: Address? = null
+
 )

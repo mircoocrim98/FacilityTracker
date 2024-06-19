@@ -65,7 +65,7 @@ class StartjobFragmernt: Fragment() {
                     jobs_done = checkedItems,
                     startTime = startTime,
                     endTime = null,
-                    startLocation = GeoData(0.5, 0.5),
+                    startLocation = viewModel.geoData,
                     endLocation = null,
                 )
                 viewModel.createJob(job)

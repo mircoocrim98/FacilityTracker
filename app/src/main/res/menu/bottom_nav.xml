@@ -13,8 +13,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:icon="@drawable/icon_todo"
-        android:title="Todo"
-        />
+        android:iconTint="#FFFFFF"
+        android:title="Todo" />
     <item
         android:id="@+id/createjobFragment"
         android:layout_width="wrap_content"

@@ -4,17 +4,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.lange.facilitytracker.MainViewModel
 import com.lange.facilitytracker.R
-import com.lange.facilitytracker.TypeOfWorkEnum
 import com.lange.facilitytracker.data.model.Job
-import com.lange.facilitytracker.databinding.ItemJobBinding
 import com.lange.facilitytracker.databinding.ItemJobdoneBinding
-import com.lange.facilitytracker.ui.ToDoFragmentDirections
 
 class OverviewAdapter(
     private val jobs: List<Job>,
@@ -53,24 +47,19 @@ class OverviewAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val job = jobs[position]
         viewModel.getAddressByIdFromDB(job.id_address!!)
-        Log.e("Adapter", job.id_address.toString())
+        val addressString = job.address?.Adresse
 
-        viewModel.address.observe(lifecycleOwner){ address ->
-            Log.e("Adapter", address.toString())
-            val addressString = address.Adresse
-            Log.e("Adapter", addressString.toString())
-            val immageResource = when (job.job_type) {
-                1 -> R.drawable.icon_cleaning
-                3 -> R.drawable.icon_maintenance
-                5 -> R.drawable.icon_damage2
-                else -> null
-            }
-            with(holder.binding) {
-                tvStreetJobdone.text = "${splitAddress(addressString.toString())?.street} ${splitAddress(addressString.toString())?.houseNumber}"
-                tvCityJobdone.text = "${splitAddress(addressString.toString())?.postalCode}, ${splitAddress(addressString.toString())?.city}"
-                if (immageResource != null) {
-                    ivJobiconJobdone.setImageResource(immageResource)
-                }
+        val immageResource = when (job.job_type) {
+            1 -> R.drawable.icon_cleaning
+            3 -> R.drawable.icon_maintenance
+            5 -> R.drawable.icon_damage2
+            else -> null
+        }
+        with(holder.binding) {
+            tvStreetJobdone.text = "${splitAddress(addressString.toString())?.street} ${splitAddress(addressString.toString())?.houseNumber}"
+            tvCityJobdone.text = "${splitAddress(addressString.toString())?.postalCode}, ${splitAddress(addressString.toString())?.city}"
+            if (immageResource != null) {
+                ivJobiconJobdone.setImageResource(immageResource)
             }
         }
     }

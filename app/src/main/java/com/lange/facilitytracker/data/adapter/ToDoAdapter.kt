@@ -48,33 +48,30 @@ class ToDoAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val job = jobs[position]
         viewModel.getAddressByIdFromDB(job.id_address!!)
+        val addressString = job.address?.Adresse
 
-        viewModel.address.observe(lifecycleOwner){ address ->
-            Log.e("ADAPTER2", job.job_type.toString())
-            val addressString = address.Adresse
-            val immageResource = when (job.job_type) {
-                0 -> R.drawable.icon_cleaning
-                2 -> R.drawable.icon_maintenance
-                4 -> R.drawable.icon_damage2
-                else -> null
+        val immageResource = when (job.job_type) {
+            0 -> R.drawable.icon_cleaning
+            2 -> R.drawable.icon_maintenance
+            4 -> R.drawable.icon_damage2
+            else -> null
+        }
+
+        with(holder.binding) {
+            tvStreet.text = "${splitAddress(addressString.toString())?.street} ${splitAddress(addressString.toString())?.houseNumber}"
+            tvCity.text = "${splitAddress(addressString.toString())?.postalCode}, ${splitAddress(addressString.toString())?.city}"
+            if (immageResource != null) {
+                ivJobicon.setImageResource(immageResource)
             }
-
-            with(holder.binding) {
-                tvStreet.text = "${splitAddress(addressString.toString())?.street} ${splitAddress(addressString.toString())?.houseNumber}"
-                tvCity.text = "${splitAddress(addressString.toString())?.postalCode}, ${splitAddress(addressString.toString())?.city}"
-                if (immageResource != null) {
-                    ivJobicon.setImageResource(immageResource)
+            root.setOnClickListener {
+                viewModel.setCurrentJob(job)
+                when (job.job_type){
+                    0 -> viewModel.currentTypeOfWork = TypeOfWorkEnum.cleaning
+                    2 -> viewModel.currentTypeOfWork = TypeOfWorkEnum.maintenance
+                    4 -> viewModel.currentTypeOfWork = TypeOfWorkEnum.damagereport
                 }
-                root.setOnClickListener {
-                    viewModel.setCurrentJob(job)
-                    when (job.job_type){
-                        0 -> viewModel.currentTypeOfWork = TypeOfWorkEnum.cleaning
-                        2 -> viewModel.currentTypeOfWork = TypeOfWorkEnum.maintenance
-                        4 -> viewModel.currentTypeOfWork = TypeOfWorkEnum.damagereport
-                    }
-                    val direction = ToDoFragmentDirections.actionToDoFragmentToUpdateTodoFragment()
-                    it.findNavController().navigate(direction)
-                }
+                val direction = ToDoFragmentDirections.actionToDoFragmentToUpdateTodoFragment()
+                it.findNavController().navigate(direction)
             }
         }
     }

@@ -10,7 +10,6 @@ class SimpleCookieJar : CookieJar {
 
     override fun saveFromResponse(url: HttpUrl, cookies: List<Cookie>) {
         this.cookies.clear()
-        Log.e(TAG,cookies.toString())
         this.cookies.addAll(cookies)
     }
 
